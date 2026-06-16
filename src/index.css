@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Lao:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --font-sans: 'Inter', 'Noto Sans Lao', sans-serif;
+  --font-sans: 'Noto Sans Lao', 'Inter',  sans-serif;
   
   /* Color Palette - Elegant Dark Mode */
   --bg-app: #0f172a;
@@ -162,7 +162,7 @@ body {
 .stat-card {
   position: relative;
   overflow: hidden;
-  padding: 1rem 1.25rem;
+  padding: 0.1rem 1.25rem;
 }
 
 .stat-card::before {
@@ -194,7 +194,7 @@ body {
   font-size: 1.55rem;
   font-weight: 700;
   letter-spacing: -0.01em;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.1rem;
 }
 
 .stat-card.balance .stat-value { color: #ffffff; }
@@ -420,7 +420,7 @@ body {
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.5rem;
+  padding: 0.15rem 0.2rem;
   border-radius: var(--radius-full);
   font-size: 0.75rem;
   font-weight: 600;
@@ -440,7 +440,7 @@ body {
 }
 
 .amount-value {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', Noto Sans Lao;
   font-weight: 600;
 }
 
@@ -557,7 +557,7 @@ body {
 .chart-value-text {
   font-weight: 600;
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', Noto Sans Lao;
 }
 
 /* Notification alerts */
@@ -610,7 +610,7 @@ body {
 }
 
 .text-center-val {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', Noto Sans Lao;
   font-weight: 700;
   fill: var(--text-primary);
 }

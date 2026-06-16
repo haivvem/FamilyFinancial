@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from './supabaseClient';
+import { supabase, isSupabaseConfigured } from './supabaseClient';
 import type { Transaction, TransactionInput } from './types';
 import { TransactionForm } from './components/TransactionForm';
 import { TransactionList } from './components/TransactionList';
@@ -14,6 +14,10 @@ function App() {
 
   // Fetch transactions from Supabase
   const fetchTransactions = async () => {
+    if (!isSupabaseConfigured) {
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
     try {
       const { data, error } = await supabase
@@ -135,6 +139,59 @@ function App() {
       .replace('LAK', '₭');
     return val < 0 ? `-${formatted}` : formatted;
   };
+
+  if (!isSupabaseConfigured) {
+    return (
+      <div className="app-container" style={{ maxWidth: '600px', marginTop: '4rem' }}>
+        <header className="app-header" style={{ justifyContent: 'center', marginBottom: '2rem' }}>
+          <div className="header-title-area">
+            <div className="app-logo">₭</div>
+            <div className="header-text">
+              <h1>ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍຄອບຄົວ</h1>
+            </div>
+          </div>
+        </header>
+        
+        <div className="card" style={{ borderLeft: '4px solid var(--color-expense)' }}>
+          <h3 className="card-title" style={{ color: 'var(--color-expense)', marginBottom: '1rem' }}>
+            ⚠️ ບໍ່ພົບການກຳນົດຄ່າ Supabase (Configuration Missing)
+          </h3>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '1.25rem', fontSize: '0.95rem', lineHeight: '1.6' }}>
+            ເວັບແອັບພລິເຄຊັນນີ້ຕ້ອງການການເຊື່ອມຕໍ່ກັບ Supabase ເພື່ອເກັບກຳຂໍ້ມູນ. ເນື່ອງຈາກໄຟລ໌ <code>.env</code> ບໍ່ໄດ້ຖືກອັບໂຫຼດຂຶ້ນ GitHub (ເພື່ອຄວາມປອດໄພ), ທ່ານຕ້ອງເພີ່ມຕົວປ່ຽນສະພາບແວດລ້ອມ (Environment Variables) ຢູ່ໃນເວັບໄຊ Vercel.
+          </p>
+
+          <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
+            <h4 style={{ fontSize: '0.95rem', marginBottom: '0.75rem', color: '#a5b4fc', fontWeight: 600 }}>ວິທີແກ້ໄຂເທິງ Vercel Dashboard:</h4>
+            <ol style={{ paddingLeft: '1.2rem', fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem' }}>
+              <li>ເຂົ້າໄປທີ່ <strong>Vercel Dashboard</strong> ຂອງໂຄງການທ່ານ</li>
+              <li>ໄປທີ່ເມນູ <strong>Settings</strong> &gt; <strong>Environment Variables</strong></li>
+              <li>ເພີ່ມຕົວປ່ຽນ 2 ລາຍການນີ້:</li>
+            </ol>
+
+            <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', fontWeight: 600 }}>NAME 1:</span>
+                <code style={{ color: 'var(--color-income)', fontSize: '0.9rem', fontWeight: 600 }}>VITE_SUPABASE_URL</code>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginTop: '0.2rem' }}>VALUE:</span>
+                <input readOnly value="https://fcebkjvwmkilyjbfaczh.supabase.co" className="input-control" style={{ fontSize: '0.8rem', padding: '0.4rem 0.6rem', marginTop: '0.2rem', cursor: 'text' }} onClick={(e) => (e.target as HTMLInputElement).select()} />
+              </div>
+
+              <div>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', fontWeight: 600 }}>NAME 2:</span>
+                <code style={{ color: 'var(--color-income)', fontSize: '0.9rem', fontWeight: 600 }}>VITE_SUPABASE_ANON_KEY</code>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginTop: '0.2rem' }}>VALUE:</span>
+                <textarea readOnly value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZjZWJranZ3bWtpbHlqYmZhY3poIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1NzkxMzcsImV4cCI6MjA5NzE1NTEzN30.pX1XHpjSzw6WbXqsJDWChg9jQgD6Wk20wssgRZ-kAkE" className="input-control" style={{ fontSize: '0.75rem', padding: '0.4rem 0.6rem', marginTop: '0.2rem', minHeight: '65px', cursor: 'text', fontFamily: 'monospace' }} onClick={(e) => (e.target as HTMLTextAreaElement).select()} />
+              </div>
+            </div>
+          </div>
+
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textAlign: 'center', lineHeight: '1.5' }}>
+            💡 ຫຼັງຈາກເພີ່ມທັງສອງລາຍການແລ້ວ, ໃຫ້ໄປທີ່ເມນູ <strong>Deployments</strong>, ກົດປຸ່ມ <strong>...</strong> (ສາມຈຸດ) ຢູ່ Deployment ຫຼ້າສຸດ ແລະ ເລືອກ <strong>Redeploy</strong> ເພື່ອໃຫ້ແອັບພລິເຄຊັນສະແດງຜົນຢ່າງຖືກຕ້ອງ.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="app-container">

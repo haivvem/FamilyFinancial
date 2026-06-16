@@ -162,6 +162,7 @@ body {
 .stat-card {
   position: relative;
   overflow: hidden;
+  padding: 1rem 1.25rem;
 }
 
 .stat-card::before {
@@ -689,6 +690,9 @@ body {
 
 /* Mobile adjustments for Stats and Form */
 @media (max-width: 640px) {
+  .stat-card {
+    padding: 0.75rem 1rem; /* Reduced padding on mobile */
+  }
   .stat-value {
     font-size: 1.35rem; /* Make stat values smaller on mobile */
   }
